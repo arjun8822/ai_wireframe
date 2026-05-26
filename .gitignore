@@ -1,0 +1,38 @@
+# Secrets — never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+credentials.json
+service-account*.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# AI tool local state (keep configs, ignore caches/sessions)
+.claude/sessions/
+.claude/history/
+.cursor/cache/
+.aider*
+!.aider.conf.yml
+
+# Logs / coverage / build — add your own as the project grows
+*.log
+coverage/
+dist/
+build/
+node_modules/
+__pycache__/
+.venv/

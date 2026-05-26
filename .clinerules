@@ -1,0 +1,30 @@
+# Cline Rules
+
+# Source of truth lives in `AGENTS.md` and the `.ai/` folder. Read those.
+# Edit content there, not in this file.
+
+## Read first
+
+- `AGENTS.md` — universal agent entry-point (project summary, top rules)
+- `.ai/project.md` — project description, stack, run/test/build commands
+- `.ai/rules.md` — hard do/don't rules
+
+## Read on demand
+
+- `.ai/architecture.md` — when changing structure or data flow
+- `.ai/style.md` — when naming, formatting, or commenting
+- `.ai/glossary.md` — when encountering unfamiliar domain terms
+- `.ai/skills/add-feature.md` — for feature work
+- `.ai/skills/fix-bug.md` — for bug fixes
+- `.ai/skills/refactor.md` — for refactors
+- `.ai/skills/write-tests.md` — for tests
+- `.ai/decisions/` — for context on past architectural choices
+
+## Behavior
+
+- The "Never" list in `.ai/rules.md` is non-negotiable.
+- Match local patterns over generic best practices. Read neighbor files
+  before editing.
+- Smallest correct change. No drive-by refactors bundled with task work.
+- Run lint, typecheck, and tests (commands in `.ai/project.md`) before
+  declaring work done.

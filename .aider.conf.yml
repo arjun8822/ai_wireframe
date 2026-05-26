@@ -1,0 +1,13 @@
+# Aider configuration
+# Docs: https://aider.chat/docs/config/aider_conf.html
+
+# Auto-load CONVENTIONS.md (which delegates to AGENTS.md + .ai/) as a read-only
+# context file on every aider session.
+read:
+  - CONVENTIONS.md
+  - AGENTS.md
+  - .ai/project.md
+  - .ai/rules.md
+
+# Skip auto-loading detailed docs — they're large and only relevant
+# situationally. Aider will pull them in when asked.

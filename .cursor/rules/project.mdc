@@ -1,0 +1,35 @@
+---
+description: Project-wide rules and pointers to the source-of-truth docs in .ai/
+alwaysApply: true
+---
+
+# Project rules (Cursor)
+
+The source of truth for this project's AI instructions lives in `AGENTS.md`
+and the `.ai/` folder. This file is a thin pointer — keep edits there, not
+here.
+
+## Always read
+
+@AGENTS.md
+@.ai/project.md
+@.ai/rules.md
+
+## Read when relevant
+
+- `@.ai/architecture.md` — structural changes
+- `@.ai/style.md` — naming / formatting / comments
+- `@.ai/glossary.md` — unfamiliar domain terms
+- `@.ai/skills/add-feature.md` — adding features
+- `@.ai/skills/fix-bug.md` — bug fixes
+- `@.ai/skills/refactor.md` — refactors
+- `@.ai/skills/write-tests.md` — writing tests
+- `@.ai/decisions/` — past architectural choices
+
+## Behavior
+
+- Follow the "Never" list in `.ai/rules.md` without exception.
+- Match local patterns. Open sibling files before editing.
+- Smallest correct change. No speculative abstractions or scope creep.
+- Run the commands in `.ai/project.md` (lint, typecheck, tests) before
+  declaring work done.

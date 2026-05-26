@@ -1,0 +1,33 @@
+# Cursor Rules (legacy format)
+
+# This file is the legacy Cursor rules location. Modern Cursor (>= 0.45)
+# prefers `.cursor/rules/*.mdc` — see `.cursor/rules/project.mdc`. Both are
+# kept here so the project works regardless of Cursor version.
+
+# Source of truth lives in `AGENTS.md` and the `.ai/` folder. Read those.
+
+## Required reading
+
+- `AGENTS.md` — universal agent entry-point (top rules + pointers)
+- `.ai/project.md` — project description, stack, run/test commands
+- `.ai/rules.md` — hard do/don't rules
+
+## When the task warrants it
+
+- `.ai/architecture.md` — for structural changes
+- `.ai/style.md` — for naming/formatting/comments
+- `.ai/glossary.md` — for unfamiliar domain terms
+- `.ai/skills/add-feature.md` — for adding features
+- `.ai/skills/fix-bug.md` — for bug fixes
+- `.ai/skills/refactor.md` — for refactors
+- `.ai/skills/write-tests.md` — for tests
+- `.ai/decisions/` — for context on past architectural choices
+
+## Behavior
+
+- Follow `.ai/rules.md` strictly. The "Never" list is non-negotiable.
+- Match local code patterns over generic best practices. Read neighbor files
+  before editing.
+- Keep changes minimal and scoped to the task. No drive-by refactors.
+- Run the lint/typecheck/test commands listed in `.ai/project.md` before
+  declaring work done.
