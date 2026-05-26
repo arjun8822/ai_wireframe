@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI Coding Boilerplate — Guide</title>
+<style>
+  @page {
+    size: A4;
+    margin: 22mm 20mm 25mm 20mm;
+    @bottom-center {
+      content: "AI Coding Boilerplate · Guide";
+      font-family: -apple-system, "Helvetica Neue", sans-serif;
+      font-size: 9pt;
+      color: #888;
+    }
+    @bottom-right {
+      content: counter(page) " / " counter(pages);
+      font-family: -apple-system, "Helvetica Neue", sans-serif;
+      font-size: 9pt;
+      color: #888;
+    }
+  }
+  @page :first {
+    margin: 0;
+    @bottom-center { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  html { font-size: 11pt; }
+  body {
+    font-family: -apple-system, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    color: #1f2328;
+    line-height: 1.55;
+  }
+
+  /* Cover */
+  .cover {
+    page: cover;
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(140deg, #0b1020 0%, #1c2540 55%, #2d3a6b 100%);
+    color: #f5f7ff;
+    position: relative;
+    page-break-after: always;
+  }
+  .cover .inner {
+    padding: 38mm 22mm 22mm 22mm;
+  }
+  .cover .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 10pt;
+    color: #9aa7d6;
+    margin-bottom: 14mm;
+  }
+  .cover h1 {
+    font-size: 38pt;
+    line-height: 1.08;
+    font-weight: 700;
+    margin: 0 0 8mm 0;
+    color: #ffffff;
+  }
+  .cover .tagline {
+    font-size: 15pt;
+    color: #c9d2f1;
+    max-width: 150mm;
+    line-height: 1.45;
+    margin: 0;
+  }
+  .cover .meta {
+    position: absolute;
+    bottom: 22mm;
+    left: 22mm;
+    right: 22mm;
+    font-size: 10pt;
+    color: #8593c4;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    padding-top: 8mm;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Content */
+  main { counter-reset: section; }
+  h1, h2, h3, h4 {
+    color: #0b1020;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  h1 {
+    font-size: 24pt;
+    margin: 0 0 6mm 0;
+    border-bottom: 2px solid #0b1020;
+    padding-bottom: 3mm;
+  }
+  h1.section-title {
+    counter-increment: section;
+  }
+  h1.section-title::before {
+    content: counter(section) ". ";
+    color: #5a6bcc;
+  }
+  h2 {
+    font-size: 15pt;
+    margin: 9mm 0 3mm 0;
+    color: #1c2540;
+  }
+  h3 {
+    font-size: 12pt;
+    margin: 6mm 0 2mm 0;
+    color: #2d3a6b;
+  }
+  h4 {
+    font-size: 11pt;
+    margin: 4mm 0 1mm 0;
+    color: #2d3a6b;
+  }
+  p { margin: 0 0 3mm 0; }
+
+  ul, ol { margin: 0 0 4mm 0; padding-left: 6mm; }
+  li { margin-bottom: 1.5mm; }
+
+  code {
+    font-family: "SF Mono", "Menlo", Consolas, monospace;
+    font-size: 9.5pt;
+    background: #f1f3f9;
+    padding: 0.4mm 1.4mm;
+    border-radius: 2px;
+    color: #1c2540;
+  }
+  pre {
+    font-family: "SF Mono", "Menlo", Consolas, monospace;
+    font-size: 9pt;
+    background: #0b1020;
+    color: #e2e7f5;
+    padding: 4mm 5mm;
+    border-radius: 3px;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.5;
+    margin: 0 0 4mm 0;
+  }
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  blockquote {
+    margin: 0 0 4mm 0;
+    padding: 3mm 5mm;
+    background: #f1f3f9;
+    border-left: 3px solid #5a6bcc;
+    color: #2d3a6b;
+    font-size: 10.5pt;
+  }
+  blockquote p:last-child { margin-bottom: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 5mm 0;
+    font-size: 10pt;
+  }
+  th, td {
+    border: 1px solid #d8dcea;
+    padding: 2mm 3mm;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #1c2540;
+    color: #fff;
+    font-weight: 600;
+  }
+  tr:nth-child(even) td { background: #f7f8fc; }
+
+  /* Table of contents */
+  .toc { page-break-after: always; }
+  .toc h1 { border-bottom: 2px solid #0b1020; padding-bottom: 3mm; }
+  .toc ol { list-style: none; padding: 0; counter-reset: tocitem; }
+  .toc ol > li {
+    counter-increment: tocitem;
+    margin-bottom: 2.5mm;
+    font-size: 11pt;
+  }
+  .toc ol > li::before {
+    content: counter(tocitem) ". ";
+    color: #5a6bcc;
+    font-weight: 600;
+  }
+  .toc .leaders {
+    display: inline-block;
+    color: #c2c8d8;
+    padding: 0 1mm;
+  }
+
+  /* Callouts */
+  .callout {
+    margin: 0 0 5mm 0;
+    padding: 4mm 5mm;
+    border-radius: 3px;
+    font-size: 10.5pt;
+  }
+  .callout.tip { background: #e9f5ee; border-left: 3px solid #2e8c4a; }
+  .callout.warn { background: #fdf2e3; border-left: 3px solid #b8721d; }
+  .callout.info { background: #eaf0fb; border-left: 3px solid #2d50a8; }
+  .callout strong:first-child { display: block; margin-bottom: 1.5mm; }
+
+  /* Layout helpers */
+  .section { page-break-before: always; }
+  .section:first-of-type { page-break-before: avoid; }
+  .small { font-size: 10pt; color: #555; }
+  hr {
+    border: 0;
+    border-top: 1px solid #d8dcea;
+    margin: 6mm 0;
+  }
+
+  /* Diagram */
+  .diagram {
+    font-family: "SF Mono", "Menlo", Consolas, monospace;
+    font-size: 8.5pt;
+    background: #f1f3f9;
+    border: 1px solid #d8dcea;
+    border-radius: 3px;
+    padding: 4mm;
+    white-space: pre;
+    line-height: 1.4;
+    margin: 0 0 5mm 0;
+    color: #1c2540;
+  }
+</style>
+</head>
+<body>
+
+<!-- =================== COVER =================== -->
+<section class="cover">
+  <div class="inner">
+    <div class="eyebrow">AI Coding Boilerplate</div>
+    <h1>One source of truth<br>for every coding agent.</h1>
+    <p class="tagline">A drop-in project skeleton that makes Claude Code, Cursor, GitHub Copilot, Windsurf, Cline, Aider, and any AGENTS.md-aware agent productive on your repo &mdash; from a single set of templates you maintain.</p>
+  </div>
+  <div class="meta">
+    <span>Guide v1.0</span>
+    <span>github.com/arjun8822/ai_wireframe</span>
+  </div>
+</section>
+
+<!-- =================== TOC =================== -->
+<section class="toc">
+  <h1>Contents</h1>
+  <ol>
+    <li>The problem this solves</li>
+    <li>The solution at a glance</li>
+    <li>Who it's for &amp; when to use it</li>
+    <li>Benefits</li>
+    <li>Project layout</li>
+    <li>How it works under the hood</li>
+    <li>Quick start (5 minutes)</li>
+    <li>Filling in the templates</li>
+    <li>Working with skills</li>
+    <li>Architecture decision records</li>
+    <li>Token optimization in depth</li>
+    <li>Adding a new agent</li>
+    <li>Best practices</li>
+    <li>FAQ &amp; troubleshooting</li>
+    <li>File reference</li>
+  </ol>
+</section>
+
+<!-- =================== 1 =================== -->
+<main>
+<section class="section">
+<h1 class="section-title">The problem this solves</h1>
+
+<p>Teams that use AI coding assistants quickly hit the same wall. Every assistant wants its own configuration file in its own location, with its own format:</p>
+
+<ul>
+  <li><strong>Claude Code</strong> reads <code>CLAUDE.md</code>.</li>
+  <li><strong>Cursor</strong> reads <code>.cursorrules</code> (legacy) or <code>.cursor/rules/*.mdc</code> (modern).</li>
+  <li><strong>GitHub Copilot</strong> reads <code>.github/copilot-instructions.md</code>.</li>
+  <li><strong>Windsurf</strong> reads <code>.windsurfrules</code>.</li>
+  <li><strong>Cline</strong> reads <code>.clinerules</code>.</li>
+  <li><strong>Aider</strong> reads <code>CONVENTIONS.md</code>.</li>
+  <li><strong>Codex, Jules, OpenAI Agents, and others</strong> are converging on <code>AGENTS.md</code>.</li>
+</ul>
+
+<p>Each file ends up saying roughly the same thing &mdash; "our stack is X, our test command is Y, never commit secrets, follow our naming conventions" &mdash; and each one drifts out of sync as the project evolves. A change to the test command lives in one file; a new architectural rule gets added to another; a junior engineer copies the wrong one as a template.</p>
+
+<p>Worse, the files that <em>do</em> get maintained tend to grow into 1,500-line monoliths because nobody knows what's safe to remove. That long file then gets injected into the assistant's context on <em>every single turn</em>, burning tokens and dulling the model's focus on what the user actually asked.</p>
+
+<blockquote>
+  <p>The fundamental issue: most teams treat AI configuration like environment variables &mdash; one per tool, copied around, drifting. It should be treated like a shared library: one source of truth, many thin consumers.</p>
+</blockquote>
+
+</section>
+
+<!-- =================== 2 =================== -->
+<section class="section">
+<h1 class="section-title">The solution at a glance</h1>
+
+<p>This boilerplate inverts the usual layout. Instead of N agent configs each containing the full picture, you maintain one <code>.ai/</code> folder of templates, and every agent's config file is a thin shim that delegates into it.</p>
+
+<div class="diagram">
+.ai/                                ← you edit this (source of truth)
+├── project.md                      what the project is, stack, commands
+├── rules.md                        hard do / don't list
+├── architecture.md                 system design (loaded on demand)
+├── style.md                        naming / formatting (loaded on demand)
+├── glossary.md                     domain terms (loaded on demand)
+├── skills/                         step-by-step playbooks
+└── decisions/                      architecture decision records
+
+AGENTS.md                           universal entry-point (small, always loaded)
+
+CLAUDE.md                           ─┐
+.cursorrules                         │
+.cursor/rules/project.mdc            │  thin shims that
+.github/copilot-instructions.md      ├─ point into .ai/
+.windsurfrules                       │  (you rarely touch these)
+.clinerules                          │
+CONVENTIONS.md (+ .aider.conf.yml)  ─┘
+</div>
+
+<p>You edit files in <code>.ai/</code> (and <code>AGENTS.md</code>). The agent-specific shims are already wired up: each one tells its respective tool to read <code>AGENTS.md</code> plus the relevant files inside <code>.ai/</code>.</p>
+
+<p>Add a rule to <code>.ai/rules.md</code> and it's instantly visible to every agent. Update the test command in <code>.ai/project.md</code> and every assistant runs the right thing. No drift, no copy-paste.</p>
+
+</section>
+
+<!-- =================== 3 =================== -->
+<section class="section">
+<h1 class="section-title">Who it's for &amp; when to use it</h1>
+
+<h2>Primary use cases</h2>
+<ul>
+  <li><strong>Solo developers who switch between assistants.</strong> You use Claude Code for deep work, Cursor for inline editing, and Copilot in your CI. One set of templates, all three tools aligned.</li>
+  <li><strong>Teams where engineers prefer different assistants.</strong> Alex uses Cursor, Sam uses Claude Code, Riley uses Windsurf. Everyone gets the same guardrails without arguing about whose config is canonical.</li>
+  <li><strong>Open-source maintainers.</strong> Contributors arrive with whatever AI tool they prefer. With this layout, you write the rules once and any contributor's assistant picks them up.</li>
+  <li><strong>"Vibe coding" projects.</strong> Side projects, prototypes, weekend builds &mdash; where you want the AI to make sensible choices without constant correction, but you don't want to write 5 config files for a 5-file project.</li>
+  <li><strong>Codebases that change tools every 6 months.</strong> The AI tooling landscape is moving fast. When the next assistant arrives, add one shim file and you're done &mdash; no template rewrite.</li>
+</ul>
+
+<h2>When it's overkill</h2>
+<ul>
+  <li>A single-file script or a throwaway experiment. Just write a quick comment at the top.</li>
+  <li>A codebase where no one uses AI assistants. (Then why are you reading this?)</li>
+  <li>A codebase with a strict single-tool mandate that will never change. You can still benefit, but the multi-agent layer is unused weight.</li>
+</ul>
+
+<h2>What this boilerplate is <em>not</em></h2>
+<ul>
+  <li>Not a code framework. It contains no application code, no <code>package.json</code>, no <code>requirements.txt</code>. Drop it into any repo regardless of language.</li>
+  <li>Not a prompt collection. It's a place for <em>your</em> rules, not generic prompts harvested from the internet.</li>
+  <li>Not opinionated about your stack. Templates are language-agnostic with placeholders for you to fill.</li>
+</ul>
+
+</section>
+
+<!-- =================== 4 =================== -->
+<section class="section">
+<h1 class="section-title">Benefits</h1>
+
+<h2>1. No drift between agent configs</h2>
+<p>Change the test command once in <code>.ai/project.md</code> and every agent runs the right thing. There's no "the Cursor config says <code>npm test</code> but we moved to <code>pnpm test</code> six months ago" failure mode.</p>
+
+<h2>2. Token efficiency by design</h2>
+<p>Always-loaded files (<code>AGENTS.md</code>, <code>project.md</code>, <code>rules.md</code>) are intentionally short. Deep content (<code>architecture.md</code>, <code>style.md</code>, skill playbooks, ADRs) lives in on-demand files the agent reads only when relevant.</p>
+<p>The practical effect: a turn that asks "add a button" doesn't pay the cost of loading 1,500 lines of architecture docs. A turn that touches the data layer does load <code>architecture.md</code>, and that load is justified.</p>
+
+<h2>3. Onboarding for humans, not just agents</h2>
+<p>The same files that orient an AI assistant orient a new engineer. <code>.ai/project.md</code>, <code>.ai/architecture.md</code>, and the ADRs in <code>.ai/decisions/</code> are exactly what you'd hand a new hire on day one. The AI's source of truth and the team's onboarding doc are the same doc.</p>
+
+<h2>4. Future-proof against new agents</h2>
+<p>When the next coding assistant arrives, you add one shim file pointing into <code>.ai/</code>. The shim is typically 20&ndash;30 lines. You don't rewrite anything.</p>
+
+<h2>5. Skills capture institutional knowledge</h2>
+<p>The <code>.ai/skills/</code> folder turns repeated instructions ("when you add a feature, also update the OpenAPI spec, and run the codegen") into reusable playbooks. The second time you find yourself giving the same instruction, write a skill.</p>
+
+<h2>6. ADRs prevent re-litigation</h2>
+<p><code>.ai/decisions/</code> records <em>why</em> past calls were made. AI assistants &mdash; like new engineers &mdash; often try to "fix" things that look odd but were deliberate. An ADR pre-empts that argument.</p>
+
+<h2>7. Works with what you already use</h2>
+<p>No new tools, no SaaS dependency, no CLI to install. It's a folder of markdown and YAML in your repo.</p>
+
+</section>
+
+<!-- =================== 5 =================== -->
+<section class="section">
+<h1 class="section-title">Project layout</h1>
+
+<p>Here is the complete file tree, annotated.</p>
+
+<div class="diagram">
+.
+├── README.md                              ← human-facing readme
+├── AGENTS.md                              ← universal agent entry-point
+│                                            (always loaded by most agents)
+│
+├── .ai/                                   ← SOURCE OF TRUTH (you edit these)
+│   ├── README.md                          how the .ai/ folder works
+│   ├── project.md                         what the project is, stack, commands
+│   ├── rules.md                           hard do / don't rules
+│   ├── architecture.md                    system architecture
+│   ├── style.md                           code style guide
+│   ├── glossary.md                        domain terms
+│   ├── skills/                            reusable workflows
+│   │   ├── README.md
+│   │   ├── add-feature.md
+│   │   ├── fix-bug.md
+│   │   ├── refactor.md
+│   │   └── write-tests.md
+│   └── decisions/                         architecture decision records
+│       ├── README.md
+│       └── TEMPLATE.md
+│
+├── CLAUDE.md                              ← Claude Code shim
+├── CONVENTIONS.md                         ← Aider shim
+├── .aider.conf.yml                        ← Aider config
+├── .cursorrules                           ← Cursor (legacy) shim
+├── .cursor/rules/project.mdc              ← Cursor (modern) shim
+├── .github/copilot-instructions.md        ← GitHub Copilot shim
+├── .windsurfrules                         ← Windsurf shim
+├── .clinerules                            ← Cline shim
+└── .gitignore                             ← sensible defaults for secrets, etc.
+</div>
+
+<h2>The two folders to know</h2>
+<table>
+  <tr><th>Folder</th><th>What lives here</th><th>How often you edit it</th></tr>
+  <tr><td><code>.ai/</code></td><td>Everything substantive: project description, rules, style, skills, decisions.</td><td>Often &mdash; this is your working surface.</td></tr>
+  <tr><td>Root-level shims</td><td>Thin pointer files for each agent.</td><td>Almost never. Only when adding a new agent.</td></tr>
+</table>
+
+</section>
+
+<!-- =================== 6 =================== -->
+<section class="section">
+<h1 class="section-title">How it works under the hood</h1>
+
+<h2>The auto-load chain</h2>
+<p>Each AI coding tool has a designated file (or files) it loads into context automatically when you open the project. Here's what each one in this boilerplate does:</p>
+
+<table>
+  <tr><th>Agent</th><th>Auto-loads</th><th>Mechanism</th></tr>
+  <tr><td>Claude Code</td><td><code>CLAUDE.md</code></td><td>Uses <code>@path</code> imports to pull in <code>AGENTS.md</code> + key <code>.ai/</code> files.</td></tr>
+  <tr><td>Cursor (modern)</td><td><code>.cursor/rules/project.mdc</code></td><td>Frontmatter <code>alwaysApply: true</code>; uses <code>@file</code> references.</td></tr>
+  <tr><td>Cursor (legacy)</td><td><code>.cursorrules</code></td><td>Plain text; instructs the assistant to read <code>AGENTS.md</code> + <code>.ai/</code>.</td></tr>
+  <tr><td>GitHub Copilot</td><td><code>.github/copilot-instructions.md</code></td><td>Copilot doesn't natively import, so this shim <em>summarizes</em> the top rules and links the rest.</td></tr>
+  <tr><td>Windsurf</td><td><code>.windsurfrules</code></td><td>Plain text; points at <code>AGENTS.md</code> + <code>.ai/</code>.</td></tr>
+  <tr><td>Cline</td><td><code>.clinerules</code></td><td>Plain text; points at <code>AGENTS.md</code> + <code>.ai/</code>.</td></tr>
+  <tr><td>Aider</td><td><code>CONVENTIONS.md</code> via <code>.aider.conf.yml</code>'s <code>read:</code> directive</td><td>Aider's config explicitly preloads <code>AGENTS.md</code>, <code>.ai/project.md</code>, <code>.ai/rules.md</code>.</td></tr>
+  <tr><td>Codex / Jules / OpenAI Agents</td><td><code>AGENTS.md</code></td><td>Native &mdash; these agents read <code>AGENTS.md</code> as the standard.</td></tr>
+</table>
+
+<h2>Why the shims exist</h2>
+<p>You might wonder: if <code>AGENTS.md</code> is becoming a standard, why have shims at all? Two reasons:</p>
+<ol>
+  <li><strong>Not all agents auto-load <code>AGENTS.md</code> yet.</strong> Cursor, Copilot, Windsurf, Cline, and Claude Code each look for their own filename first. The shim ensures every agent picks up the same context.</li>
+  <li><strong>Some agents support imports, others don't.</strong> Claude Code can <code>@import</code> other files; Copilot pastes its instructions file in as-is. The shim is where we encode that per-agent quirk &mdash; without leaking it into <code>.ai/</code>.</li>
+</ol>
+
+<h2>The load-frequency split</h2>
+<p>Every file in this boilerplate falls into one of two tiers:</p>
+<table>
+  <tr><th>Tier</th><th>Files</th><th>Rule</th></tr>
+  <tr><td>Always loaded</td><td><code>AGENTS.md</code>, <code>.ai/project.md</code>, <code>.ai/rules.md</code></td><td>Keep <strong>short</strong>. Aim for under ~150 lines combined. Every line costs tokens on every turn.</td></tr>
+  <tr><td>On demand</td><td><code>.ai/architecture.md</code>, <code>.ai/style.md</code>, <code>.ai/glossary.md</code>, <code>.ai/skills/*</code>, <code>.ai/decisions/*</code></td><td>Length is fine. These load only when the agent decides they're relevant to the current task.</td></tr>
+</table>
+
+<div class="callout info">
+  <strong>Design principle</strong>
+  Always-loaded files should answer "what exists and where to look." On-demand files contain the depth. If you find yourself adding a 50-line section to an always-loaded file, ask whether it belongs in <code>style.md</code> or a skill instead.
+</div>
+
+</section>
+
+<!-- =================== 7 =================== -->
+<section class="section">
+<h1 class="section-title">Quick start (5 minutes)</h1>
+
+<h2>1. Clone or copy into your project</h2>
+<p>If you're starting a new repo:</p>
+<pre><code>git clone https://github.com/arjun8822/ai_wireframe.git my-project
+cd my-project
+rm -rf .git
+git init</code></pre>
+
+<p>If you're adding to an existing repo, copy the files in (avoiding any conflicts with your existing <code>.github/</code>):</p>
+<pre><code>cp -R ai_wireframe/.ai ./
+cp ai_wireframe/AGENTS.md ai_wireframe/CLAUDE.md ai_wireframe/CONVENTIONS.md ./
+cp ai_wireframe/.aider.conf.yml ai_wireframe/.cursorrules ai_wireframe/.clinerules ai_wireframe/.windsurfrules ./
+cp -R ai_wireframe/.cursor ./
+mkdir -p .github && cp ai_wireframe/.github/copilot-instructions.md .github/</code></pre>
+
+<h2>2. Fill in <code>.ai/project.md</code></h2>
+<p>This is the most important file. Replace every <code>&lt;!-- FILL: ... --&gt;</code> placeholder with your project's actual details: stack, run/test/build commands, entry points.</p>
+<p><strong>Why first:</strong> wrong commands here mean every agent wastes its first turn running the wrong command. Right commands here mean every agent gets it right on the first try.</p>
+
+<h2>3. Tune <code>.ai/rules.md</code></h2>
+<p>The defaults are a sensible starting point. Add any project-specific hard rules to the "Always" / "Never" / "Ask before" sections. Keep the file under ~50 lines of rules &mdash; if it's longer, push detail into <code>style.md</code> or a skill.</p>
+
+<h2>4. Skim the rest</h2>
+<p>Open <code>.ai/architecture.md</code>, <code>.ai/style.md</code>, <code>.ai/glossary.md</code>. Fill what's relevant, delete what isn't. None of these are mandatory &mdash; an empty file with just a comment "no project-specific rules yet" is valid.</p>
+
+<h2>5. Commit</h2>
+<pre><code>git add .
+git commit -m "chore: add AI coding boilerplate"</code></pre>
+
+<p>That's it. Open the project in Claude Code, Cursor, or any of the supported assistants &mdash; they will pick up the rules automatically.</p>
+
+</section>
+
+<!-- =================== 8 =================== -->
+<section class="section">
+<h1 class="section-title">Filling in the templates</h1>
+
+<h2>Placeholders</h2>
+<p>Every template uses HTML comments as placeholders, like this:</p>
+<pre><code>&lt;!-- FILL: 2&ndash;4 sentences. What is the product? Who uses it? --&gt;</code></pre>
+<p>Replace the comment with your content. The comment itself can be deleted, or kept as a reminder while drafting.</p>
+
+<h2><code>.ai/project.md</code> &mdash; the essentials</h2>
+<p>Sections, in priority order:</p>
+<ul>
+  <li><strong>What this project is</strong> &mdash; two to four sentences. Skip marketing copy. The agent needs enough to make sensible suggestions, not a pitch.</li>
+  <li><strong>Stack</strong> &mdash; framework, language, database, package manager, with <em>versions</em>. Without versions, the agent will hallucinate API shapes from its training data.</li>
+  <li><strong>Run / test / build commands</strong> &mdash; literal commands. Copy-paste from your real workflow.</li>
+  <li><strong>Entry points</strong> &mdash; the files an agent should read first to understand the shape of the codebase.</li>
+</ul>
+
+<h2><code>.ai/rules.md</code> &mdash; the guardrails</h2>
+<p>Three sections: "Always", "Never", "Ask before". One line per rule. Add a short <em>why</em> only when it's not obvious.</p>
+<div class="callout tip">
+  <strong>Tip</strong>
+  When you correct the AI on the same thing twice, add it as a rule. The third time is too late.
+</div>
+
+<h2><code>.ai/architecture.md</code> &mdash; the map</h2>
+<p>Don't restate the schema or the file tree. Focus on:</p>
+<ul>
+  <li>The one-paragraph overview &mdash; "how does this system fit together?"</li>
+  <li>What each component <em>is not</em> responsible for. This is the single most useful kind of content in an architecture doc.</li>
+  <li>Choices that look naive but were deliberate &mdash; link to ADRs.</li>
+</ul>
+
+<h2><code>.ai/style.md</code> &mdash; what the linter doesn't catch</h2>
+<p>If your formatter handles it (Prettier, ruff, Biome), don't restate it here. This file is for the things <em>not</em> enforced by tooling: error-handling style, comment policy, "forbidden patterns" that look fine to a generic AI but are wrong for your project.</p>
+
+<h2><code>.ai/glossary.md</code> &mdash; the domain language</h2>
+<p>10&ndash;40 entries. Each is a bold term and a one-sentence definition. Include any term that means something specific in your project that it doesn't mean elsewhere &mdash; that's where AI assistants make their best-disguised mistakes.</p>
+
+</section>
+
+<!-- =================== 9 =================== -->
+<section class="section">
+<h1 class="section-title">Working with skills</h1>
+
+<h2>What is a skill?</h2>
+<p>A skill is a short, scenario-specific playbook for a recurring task. Skills earn their place by being <em>repeated</em>. If you've given the same instructions to the AI more than twice, capture them as a skill.</p>
+
+<h2>The four bundled skills</h2>
+<table>
+  <tr><th>Skill</th><th>When the agent loads it</th><th>What's inside</th></tr>
+  <tr><td><code>add-feature.md</code></td><td>Starting a feature</td><td>Confirm scope &rarr; find precedent &rarr; implement layer by layer &rarr; checklist before declaring done.</td></tr>
+  <tr><td><code>fix-bug.md</code></td><td>Investigating a bug</td><td>Reproduce first &rarr; find root cause not symptom &rarr; write failing test &rarr; minimal fix.</td></tr>
+  <tr><td><code>refactor.md</code></td><td>Doing a refactor</td><td>Confirm goal &rarr; check coverage &rarr; one transformation per step &rarr; don't bundle behavior changes.</td></tr>
+  <tr><td><code>write-tests.md</code></td><td>Adding tests</td><td>Test behavior not implementation &rarr; pyramid guidance &rarr; what to avoid (snapshot abuse, mocking your own code).</td></tr>
+</table>
+
+<h2>How agents pick up skills</h2>
+<p><code>AGENTS.md</code> contains a routing table ("If you're doing X, read this skill first"). The agent consults it when starting a task and loads the matching skill into context.</p>
+
+<h2>Adding your own skill</h2>
+<ol>
+  <li>Copy <code>.ai/skills/add-feature.md</code> as a starting structure.</li>
+  <li>Name the file after the task in imperative kebab-case: <code>add-migration.md</code>, <code>update-api-client.md</code>, <code>add-feature-flag.md</code>.</li>
+  <li>Keep it under ~100 lines. If it's longer, the task is probably two skills.</li>
+  <li>Add a row to the table in <code>.ai/skills/README.md</code>.</li>
+  <li>If the skill is frequently needed, also link it from the "When to load more context" table in <code>AGENTS.md</code>.</li>
+</ol>
+
+<div class="callout tip">
+  <strong>What makes a good skill</strong>
+  Self-contained: an agent loading <em>only</em> this skill should have enough to do the task. Concrete: orders of operation matter (write the failing test <em>before</em> the fix), so spell them out. Honest about exit criteria: every skill ends with "how do you know you're done."
+</div>
+
+</section>
+
+<!-- =================== 10 =================== -->
+<section class="section">
+<h1 class="section-title">Architecture decision records</h1>
+
+<h2>Why ADRs exist in this boilerplate</h2>
+<p>AI assistants are pattern-matchers. When they encounter code that <em>looks</em> wrong by generic standards &mdash; an unused-looking abstraction, a "missing" layer, a duplicated helper &mdash; their instinct is to fix it. Sometimes they're right. Sometimes the oddity was deliberate and the fix re-introduces a bug the team solved six months ago.</p>
+<p>An ADR (Architecture Decision Record) is a short, dated document explaining <em>why</em> a non-obvious choice was made. When the agent (or a new engineer) is about to "fix" something, an ADR is what stops them and tells them the real story.</p>
+
+<h2>When to write one</h2>
+<p>Write an ADR when:</p>
+<ul>
+  <li>The choice is hard to reverse (database, framework, deployment target).</li>
+  <li>A reasonable engineer would make the opposite call, and you need to document why you didn't.</li>
+  <li>Future you / a new hire / an AI would otherwise undo the decision thinking it was an oversight.</li>
+</ul>
+<p>Don't write one for:</p>
+<ul>
+  <li>Routine library picks with cheap reversal cost.</li>
+  <li>Decisions already encoded in the type system or in comments.</li>
+  <li>Things already covered in <code>project.md</code> ("we use Postgres").</li>
+</ul>
+
+<h2>The template</h2>
+<p><code>.ai/decisions/TEMPLATE.md</code> has five sections: <em>Status</em>, <em>Context</em>, <em>Decision</em>, <em>Consequences</em>, <em>Alternatives considered</em>. Keep each ADR short &mdash; one page is plenty.</p>
+
+<h2>The cardinal rule</h2>
+<p>Once an ADR is <strong>accepted</strong>, it's immutable. If a future decision overturns it, write a new ADR that supersedes the old one, and update the old one's status header to point at the new one. This way the historical record stays intact &mdash; future readers can see the path of reasoning, not just the latest answer.</p>
+
+</section>
+
+<!-- =================== 11 =================== -->
+<section class="section">
+<h1 class="section-title">Token optimization in depth</h1>
+
+<h2>The cost model</h2>
+<p>Every AI coding assistant injects your "rules" or "instructions" file into the model's context on <em>every turn</em>. A 2,000-line CLAUDE.md adds ~2,000 lines of prompt to every message you send. That's:</p>
+<ul>
+  <li><strong>Money:</strong> token cost per turn, multiplied by every turn for the life of the project.</li>
+  <li><strong>Latency:</strong> more tokens = slower first response.</li>
+  <li><strong>Quality:</strong> the model's attention budget is finite. A long always-loaded preamble dilutes focus on the actual question.</li>
+</ul>
+
+<h2>The two-tier system</h2>
+<p>This boilerplate's central design choice is splitting content by load frequency:</p>
+<table>
+  <tr><th>Tier</th><th>Files</th><th>Target size</th></tr>
+  <tr><td>Always loaded</td><td><code>AGENTS.md</code> + <code>.ai/project.md</code> + <code>.ai/rules.md</code></td><td>Combined &lt; 300 lines</td></tr>
+  <tr><td>On demand</td><td><code>architecture.md</code>, <code>style.md</code>, <code>glossary.md</code>, all skills, all ADRs</td><td>No limit. Be as thorough as you want.</td></tr>
+</table>
+
+<h2>The "where to look" pattern</h2>
+<p>Instead of putting architecture detail in the always-loaded files, the always-loaded files contain a <em>routing table</em>: "if you're touching the data layer, read <code>architecture.md</code>." The agent does the lookup when it matters, not preemptively.</p>
+
+<h2>What to keep small</h2>
+<ul>
+  <li><code>AGENTS.md</code>: project summary in one paragraph, top 5 rules, the routing table. That's it.</li>
+  <li><code>.ai/project.md</code>: stack, commands, entry points. No essay.</li>
+  <li><code>.ai/rules.md</code>: bullet points only. Reasoning belongs in linked docs.</li>
+</ul>
+
+<h2>What to push to on-demand</h2>
+<ul>
+  <li>Anything narrative or explanatory.</li>
+  <li>Anything specific to a task type (testing &rarr; <code>write-tests.md</code>, performance &rarr; consider a perf skill).</li>
+  <li>Historical context (&rarr; ADRs).</li>
+</ul>
+
+<div class="callout warn">
+  <strong>Anti-pattern to avoid</strong>
+  Don't dump your entire style guide, every architectural diagram, and every ADR into <code>CLAUDE.md</code> "just so the agent has everything." It's the AI equivalent of reading the entire employee handbook before every Slack message.
+</div>
+
+</section>
+
+<!-- =================== 12 =================== -->
+<section class="section">
+<h1 class="section-title">Adding a new agent</h1>
+
+<p>When a new AI coding assistant shows up, here's the recipe to wire it in &mdash; usually under five minutes.</p>
+
+<h2>Step 1: find the agent's config location</h2>
+<p>Check the agent's docs for its "rules" or "instructions" file. Examples to date:</p>
+<ul>
+  <li>Claude Code &rarr; <code>CLAUDE.md</code></li>
+  <li>Cursor &rarr; <code>.cursor/rules/*.mdc</code></li>
+  <li>Copilot &rarr; <code>.github/copilot-instructions.md</code></li>
+  <li>Windsurf &rarr; <code>.windsurfrules</code></li>
+  <li>Cline &rarr; <code>.clinerules</code></li>
+  <li>Aider &rarr; <code>CONVENTIONS.md</code> (referenced from <code>.aider.conf.yml</code>)</li>
+</ul>
+
+<h2>Step 2: create a shim</h2>
+<p>Use one of the existing shims as a template. The pattern is:</p>
+<ol>
+  <li>A one-sentence note that the source of truth is in <code>AGENTS.md</code> and <code>.ai/</code>.</li>
+  <li>A list of always-read files.</li>
+  <li>A list of on-demand files with when-to-read guidance.</li>
+  <li>A short "behavior" section restating the key rules.</li>
+</ol>
+
+<h2>Step 3: handle the agent's quirks</h2>
+<ul>
+  <li><strong>If the agent supports file imports</strong> (Claude's <code>@path</code>, Cursor's <code>@file</code>), use them in the shim.</li>
+  <li><strong>If the agent doesn't import</strong> (Copilot), summarize the top rules <em>in</em> the shim, then link to the full versions.</li>
+  <li><strong>If the agent has a config file</strong> (Aider's <code>.aider.conf.yml</code>), use it to preload the always-loaded files.</li>
+</ul>
+
+<h2>Step 4: update the README</h2>
+<p>Add a row to the "Supported agents" table in the root <code>README.md</code> so future users know it's wired up.</p>
+
+<h2>Migrating an existing project's rules</h2>
+<p>If you already have a <code>CLAUDE.md</code> or <code>.cursorrules</code> with content:</p>
+<ol>
+  <li>Move the substantive content into the appropriate <code>.ai/</code> file (project description &rarr; <code>project.md</code>, rules &rarr; <code>rules.md</code>, etc.).</li>
+  <li>Replace the original file with this boilerplate's thin shim.</li>
+  <li>Delete duplicated content. The shim points to the canonical source.</li>
+</ol>
+
+</section>
+
+<!-- =================== 13 =================== -->
+<section class="section">
+<h1 class="section-title">Best practices</h1>
+
+<h2>Editing</h2>
+<ul>
+  <li><strong>Edit in <code>.ai/</code>, never in the shims.</strong> The shims are wired correctly &mdash; touching them risks breaking the auto-load chain. Substantive change goes in <code>.ai/</code>.</li>
+  <li><strong>Cross-reference with relative links.</strong> Use <code>[architecture.md](architecture.md)</code>, not "see the architecture doc." Links are navigable; prose isn't.</li>
+  <li><strong>Date your decisions.</strong> Files under <code>.ai/decisions/</code> include a date. The dated record is what makes ADRs useful months later.</li>
+</ul>
+
+<h2>Sizing</h2>
+<ul>
+  <li><strong>Always-loaded files: under 150 lines.</strong> Combined under 300 lines. If you exceed this, push detail to an on-demand file.</li>
+  <li><strong>Skills: under 100 lines.</strong> If longer, the task is probably two skills.</li>
+  <li><strong>ADRs: one page.</strong> If you need more, the decision wasn't crisp enough.</li>
+</ul>
+
+<h2>Content</h2>
+<ul>
+  <li><strong>Rules are bullet points, not essays.</strong> Reasoning goes in linked docs.</li>
+  <li><strong>Say what <em>not</em> to do.</strong> Negative rules (the "Never" list, "Not responsible for" in architecture, "Forbidden patterns" in style) are the highest-signal content because they're the things an AI will get wrong without them.</li>
+  <li><strong>Capture corrections.</strong> When you correct the AI on the same thing twice, write it down as a rule or skill. The third time is wasted breath.</li>
+</ul>
+
+<h2>Operational</h2>
+<ul>
+  <li><strong>Treat the boilerplate as living documentation.</strong> A rule that hasn't been touched in 18 months is suspect &mdash; either it's still true (good) or the code has drifted (bad). Review periodically.</li>
+  <li><strong>Don't commit secrets.</strong> The bundled <code>.gitignore</code> covers the common cases (<code>.env</code>, <code>*.pem</code>, <code>credentials.json</code>). Don't disable these without thinking about it.</li>
+  <li><strong>When a rule conflicts with the code, trust the code.</strong> Update the rule. The running code is authoritative; the docs are a description.</li>
+</ul>
+
+</section>
+
+<!-- =================== 14 =================== -->
+<section class="section">
+<h1 class="section-title">FAQ &amp; troubleshooting</h1>
+
+<h3>Won't 8 config files clutter my repo?</h3>
+<p>Yes, slightly &mdash; though most are dotfiles that hide by default. The trade-off is real: a small amount of root clutter in exchange for not maintaining the same rules in 8 places. If your team only uses one assistant, you can safely delete the shims for the others. The <code>.ai/</code> folder remains useful on its own.</p>
+
+<h3>What if two agents have conflicting opinions?</h3>
+<p>They shouldn't, because they're reading the same source. If one agent ignores a rule that another respects, it's not a content problem &mdash; it's a model behavior problem. File it as feedback for the tool vendor; the shared source still helps you reproduce the issue.</p>
+
+<h3>My Copilot shim is summarizing the rules. Doesn't that duplicate content?</h3>
+<p>A small amount, yes &mdash; the top 5 hard rules appear both in <code>.ai/rules.md</code> and (paraphrased) in <code>.github/copilot-instructions.md</code>, because Copilot can't import other files. This is a deliberate trade-off: a small summarized duplication beats Copilot operating without any rules at all. Keep the summary short (5&ndash;10 lines) and update both when a top rule changes.</p>
+
+<h3>What about <code>AGENTS.md</code> for tools that don't auto-load it?</h3>
+<p>The shim for each non-AGENTS.md tool explicitly tells it to read <code>AGENTS.md</code> first. So even tools that don't natively support the standard still get the same entry point.</p>
+
+<h3>How do I know it's working?</h3>
+<p>Easiest check: open your project in the assistant and ask "what is this project?" The answer should reflect what you put in <code>.ai/project.md</code>. If the answer is generic, the assistant isn't loading the files &mdash; check that the shim file exists at the path the agent expects.</p>
+
+<h3>Can I use this in a monorepo?</h3>
+<p>Yes. Put the boilerplate at the repo root. For per-package overrides, you can add a smaller <code>CLAUDE.md</code> (or equivalent) inside a package directory &mdash; most agents combine multiple rules files when both exist.</p>
+
+<h3>What if I want a rule to apply to only some files?</h3>
+<p>The modern Cursor format (<code>.cursor/rules/*.mdc</code>) supports glob-based scoping via frontmatter. For other agents, the convention is to mention the scope inline in the rule ("In <code>src/server/</code>, never...").</p>
+
+<h3>How do I version-control the boilerplate itself?</h3>
+<p>The boilerplate <em>is</em> just files in your repo, so it's versioned with the rest of your project. If you want to pull upstream updates, you can occasionally diff against the source repo (<code>github.com/arjun8822/ai_wireframe</code>) and cherry-pick changes &mdash; usually to the bundled skills or the shims, since your <code>.ai/</code> content is yours.</p>
+
+<h3>Is this compatible with team-level rules (e.g. company-wide standards)?</h3>
+<p>Yes. Many agents support a layered rules system (user-level + project-level). The boilerplate sits at the project level. Org-wide rules live in the user-level location for each agent and combine with this project's rules at load time.</p>
+
+</section>
+
+<!-- =================== 15 =================== -->
+<section class="section">
+<h1 class="section-title">File reference</h1>
+
+<h2>Source of truth (<code>.ai/</code>)</h2>
+<table>
+  <tr><th>File</th><th>Purpose</th><th>Edit frequency</th></tr>
+  <tr><td><code>.ai/README.md</code></td><td>How the .ai/ folder works.</td><td>Rare.</td></tr>
+  <tr><td><code>.ai/project.md</code></td><td>What the project is, stack, commands. Always loaded.</td><td>When stack/commands change.</td></tr>
+  <tr><td><code>.ai/rules.md</code></td><td>Hard do/don't rules. Always loaded.</td><td>When you correct the AI twice on the same thing.</td></tr>
+  <tr><td><code>.ai/architecture.md</code></td><td>System design. Loaded on demand.</td><td>When the architecture changes.</td></tr>
+  <tr><td><code>.ai/style.md</code></td><td>Project-specific style not enforced by formatters. On demand.</td><td>When style conventions shift.</td></tr>
+  <tr><td><code>.ai/glossary.md</code></td><td>Domain terms. On demand.</td><td>When new terms appear.</td></tr>
+  <tr><td><code>.ai/skills/*.md</code></td><td>Per-task playbooks. On demand.</td><td>When you find yourself repeating instructions.</td></tr>
+  <tr><td><code>.ai/decisions/*.md</code></td><td>Architecture decision records. On demand.</td><td>Append-only. New ADRs supersede old ones.</td></tr>
+</table>
+
+<h2>Universal entry-point</h2>
+<table>
+  <tr><th>File</th><th>Purpose</th></tr>
+  <tr><td><code>AGENTS.md</code></td><td>Short, always-loaded entry point. Top rules + routing table. Read by AGENTS.md-aware agents natively; referenced by all the shims.</td></tr>
+</table>
+
+<h2>Agent shims</h2>
+<table>
+  <tr><th>File</th><th>Agent</th><th>Mechanism</th></tr>
+  <tr><td><code>CLAUDE.md</code></td><td>Claude Code</td><td>Uses <code>@path</code> imports.</td></tr>
+  <tr><td><code>.cursorrules</code></td><td>Cursor (legacy)</td><td>Plain text instruction file.</td></tr>
+  <tr><td><code>.cursor/rules/project.mdc</code></td><td>Cursor (modern)</td><td>Frontmatter <code>alwaysApply: true</code> + <code>@file</code> refs.</td></tr>
+  <tr><td><code>.github/copilot-instructions.md</code></td><td>GitHub Copilot</td><td>Plain markdown; top rules summarized inline.</td></tr>
+  <tr><td><code>.windsurfrules</code></td><td>Windsurf</td><td>Plain text instruction file.</td></tr>
+  <tr><td><code>.clinerules</code></td><td>Cline</td><td>Plain text instruction file.</td></tr>
+  <tr><td><code>CONVENTIONS.md</code></td><td>Aider</td><td>Conventions file referenced by <code>.aider.conf.yml</code>.</td></tr>
+  <tr><td><code>.aider.conf.yml</code></td><td>Aider</td><td>YAML config; preloads <code>CONVENTIONS.md</code>, <code>AGENTS.md</code>, <code>.ai/project.md</code>, <code>.ai/rules.md</code>.</td></tr>
+</table>
+
+<h2>Repo housekeeping</h2>
+<table>
+  <tr><th>File</th><th>Purpose</th></tr>
+  <tr><td><code>README.md</code></td><td>Human-facing readme for the boilerplate itself.</td></tr>
+  <tr><td><code>.gitignore</code></td><td>Sensible defaults: ignores secrets, IDE state, build output, AI tool caches.</td></tr>
+  <tr><td><code>docs/guide.pdf</code></td><td>This document.</td></tr>
+</table>
+
+<hr>
+
+<p class="small">AI Coding Boilerplate &middot; Guide v1.0 &middot; Generated for github.com/arjun8822/ai_wireframe</p>
+
+</section>
+</main>
+
+</body>
+</html>
